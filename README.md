@@ -1,4 +1,4 @@
-# nonces4php
+# nonce4php
 
 A nonce manager PHP library usefull for preventing CSRF attacks.  
 The nonces generator and storage can be customized and selected.
