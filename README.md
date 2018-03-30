@@ -1,5 +1,7 @@
 # nonce4php
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d099b114ef4f4d99bb1f39a8064aa8c4)](https://app.codacy.com/app/pedroac/nonce4php?utm_source=github.com&utm_medium=referral&utm_content=pedroac/nonce4php&utm_campaign=badger)
+
 A nonce manager PHP library usefull for preventing CSRF attacks.  
 The nonces generator and storage can be customized and selected.
 
