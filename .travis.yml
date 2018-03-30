@@ -1,0 +1,20 @@
+language: php
+
+sudo: false
+
+php:
+  - 7.1
+  - master
+
+before_install:
+  - composer self-update -d ./php
+  - composer clear-cache -d ./php
+
+install:
+  - composer install -d ./php --prefer-source --no-interaction --dev
+
+script:
+  - php ./php/vendor/bin/phpunit ./php/tests/ -c ./php/tests/configuration.xml --coverage-clover ./php/tests/logs/clover.xml
+ 
+after_script:
+  - php ./php/vendor/bin/codacycoverage clover ./php/tests/logs/clover.xml
