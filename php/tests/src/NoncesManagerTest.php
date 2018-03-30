@@ -90,7 +90,7 @@ class NoncesManagerTest extends TestCase
 
     /**
      * @covers \pedroac\nonce\NoncesManager::create
-     * @covers \pedroac\nonce\NoncesManager::purge
+     * @covers \pedroac\nonce\NoncesManager::expire
      * @covers \pedroac\nonce\NoncesManager::__construct
      */
     public function testExpire()
