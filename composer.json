@@ -1,5 +1,5 @@
 {
-    "name": "pedroac/nonce4php",
+    "name": "pedroac/nonce",
     "type": "library",
     "description": "A nonces manager usefull for preventing CSRF attacks.",
     "keywords": ["nounce", "security", "token"],

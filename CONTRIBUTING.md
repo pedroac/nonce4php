@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for considering contributing to the open source PHP library nonce4php.
+Thank you for considering contributing to the pedro/nonce open source PHP library.
 
 ## Reporting issues
 
