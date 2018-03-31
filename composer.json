@@ -10,6 +10,9 @@
             "role": "Developer"
         }
     ],
+    "config": {
+        "vendor-dir": "./php/vendor"
+    },
     "autoload": {
         "psr-4": {"pedroac\\nonce\\": "lib"}
     },

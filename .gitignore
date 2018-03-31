@@ -1,4 +1,4 @@
-vendor/
+/php/vendor/
 composer.lock
 .vscode
 /php/tests/logs/*
