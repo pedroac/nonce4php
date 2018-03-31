@@ -1,4 +1,4 @@
-# nonce4php
+# pedroac/nonce for PHP
 
 [![Build Status](https://travis-ci.org/pedroac/nonce4php.svg?branch=master)](https://travis-ci.org/pedroac/nonce4php)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d099b114ef4f4d99bb1f39a8064aa8c4)](https://app.codacy.com/app/pedroac/nonce4php?utm_source=github.com&utm_medium=referral&utm_content=pedroac/nonce4php&utm_campaign=badger)
@@ -14,19 +14,9 @@ The nonces generator and storage can be customized and selected.
 
 ## Installing
 
-Add to your `composer.json` file:
+Run the command:
 
-```json
-"repositories": [
-    {
-        "url": "https://github.com/pedroac/nonces4php.git",
-        "type": "vcs"
-    }
-],
-"require": {
-    "pedroac/nonces4php": "@stable"
-}
-```
+`composer require pedroac/nonce:dev-master`
 
 ## Usage
 
@@ -89,7 +79,7 @@ It should be used [SemVer](http://semver.org/) for versioning.
 
 ## License
 
-pedroac/nonce4php is released under the MIT public license.  
+pedroac/nonce is released under the MIT public license.  
 See the enclosed [LICENSE](LICENSE) for details.
 
 ## Acknowledgements
