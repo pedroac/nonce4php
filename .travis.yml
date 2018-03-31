@@ -7,11 +7,11 @@ php:
   - master
 
 before_install:
-  - composer self-update -d ./php
-  - composer clear-cache -d ./php
+  - composer self-update -d .
+  - composer clear-cache -d .
 
 install:
-  - composer install -d ./php --prefer-source --no-interaction --dev
+  - composer install -d . --prefer-source --no-interaction --dev
 
 script:
   - php ./php/vendor/bin/phpunit ./php/tests/ -c ./php/tests/configuration.xml --coverage-clover ./php/tests/logs/clover.xml

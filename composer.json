@@ -1,5 +1,5 @@
 {
-    "name": "pedroac/nonces4php",
+    "name": "pedroac/nonce4php",
     "type": "library",
     "description": "A nonces manager usefull for preventing CSRF attacks.",
     "keywords": ["nounce", "security", "token"],
@@ -10,8 +10,11 @@
             "role": "Developer"
         }
     ],
+    "config": {
+        "vendor-dir": "./php/vendor"
+    },
     "autoload": {
-        "psr-4": {"pedroac\\nonce\\": "lib"}
+        "psr-4": {"pedroac\\nonce\\": "php/lib"}
     },
     "require": {
         "php": ">=7.1"
