@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.0.2] - 2018-03-31
+## [0.1.2] - 2018-03-31
+### Fixed
+- Changed the composer configuration.
+- Changed the installation instructions.
+
+## [0.1.0] - 2018-03-31
 ### Added
 - Continuous Integration.
 

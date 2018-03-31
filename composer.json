@@ -2,7 +2,12 @@
     "name": "pedroac/nonce",
     "type": "library",
     "description": "A nonces manager usefull for preventing CSRF attacks.",
-    "keywords": ["nounce", "security", "token"],
+    "keywords": ["nonce", "security", "token", "csrf"],
+    "homepage": "https://github.com/pedroac/nonce4php",
+    "support": {
+        "email": "pedro.amaral.couto@gmail.com",
+        "issues": "https://github.com/pedroac/nonce4php/issues"
+    },
     "authors": [
         {
             "name": "Pedro Amaral Couto",
@@ -10,6 +15,7 @@
             "role": "Developer"
         }
     ],
+    "license": "MIT",
     "config": {
         "vendor-dir": "./php/vendor"
     },
