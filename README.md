@@ -4,8 +4,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d099b114ef4f4d99bb1f39a8064aa8c4)](https://app.codacy.com/app/pedroac/nonce4php?utm_source=github.com&utm_medium=referral&utm_content=pedroac/nonce4php&utm_campaign=badger)
 [![Support via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/pedroac)
 
-A nonce manager PHP library usefull for preventing CSRF attacks.  
-The nonces generator and storage can be customized and selected.
+A nonce manager PHP library useful for preventing CSRF attacks.  
+The nonces generator and storage can be customised and selected.
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ $isValid = $manager->verify('action', $_POST['_form-nc']);
 $manager->expire('action');
 ```
 
-Unusable nonces might be removed periodically using a crong job:
+Unusable nonces might be removed periodically using a cron job:
 ```php
 $manager->purge();
 ```
@@ -63,7 +63,7 @@ $manager->purge();
 
 ## Running the tests
 
-Run in the libraries's root directory:
+Run from the library root folder:
 
 `php/vendor/bin/phpunit php/tests/ -c php/tests/configuration.xml`
 
