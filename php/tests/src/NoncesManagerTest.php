@@ -56,7 +56,7 @@ class NoncesManagerTest extends TestCase
      * @covers \pedroac\nonce\NoncesManager::create
      * @covers \pedroac\nonce\NoncesManager::__construct
      */
-    public function testCreateWidthDefault()
+    public function testCreateWithDefault()
     {
         $now = new MutableProvider(new \DateTimeImmutable);
         $manager = new NoncesManager(
@@ -70,6 +70,12 @@ class NoncesManagerTest extends TestCase
         $this->assertEquals(
             'my-form',
             $nonce->getName()
+        );
+
+        $nonce = $manager->create();
+
+        $this->assertTrue(
+            strlen($nonce->getName()) > 10
         );
         
         $this->assertTrue(

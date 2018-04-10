@@ -103,20 +103,26 @@ class NoncesManager
     /**
      * Create a nonce.
      * 
-     * The nonce should be randomly generated and temporarily stored.  
-     * If `$expirationInterval` is not NULL, the manager expiration
-     * interval should be ignored.  
-     * The returned nonce has the value that should be used by the client.
+     * - The nonce should be randomly generated and temporarily stored.  
+     * - If `$expirationInterval` is not NULL, the manager expiration
+     * interval should be ignored.
+     * - The returned nonce has the value that should be used by the client.
+     * - If a name is not specified a unique name should be generated and the
+     * returned nonce should be used to get it.
      *
      * @param string $name The name that can be used to identify the nonce.
+     *  If NULL, a name will be generated.
      * @param \DateInterval $expirationInterval The nonce expiration interval that 
      *  should override the default or specified manager expiration interval.
      * @return Nonce The created nonce.
      */
     public function create(
-        string $name,
+        string $name = null,
         \DateInterval $expirationInterval = null
     ): Nonce {
+        if ($name === null) {
+            $name = 'token_' . uniqid();
+        }
         if (!$expirationInterval) {
             $expirationInterval = $this->expirationInterval;
         }

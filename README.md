@@ -30,24 +30,20 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use \pedroac\nonce\NoncesManager;
-use \pedroac\nonce\Random\HexRandomizer;
 
-session_start();
-$user_id = $_SESSION['user_id'];
-$manager = new NoncesManager(
-    new FilesystemCache,
-    new HexRandomizer(12), // optional
-    new \DateInterval('PT1H') // optional
-);
+$manager = new NoncesManager(new FilesystemCache);
 ```
 
 Generate a nonce:
 ```php
-$nonce = $manager->create("{$user_id}_form-nc");
+$nonce = $manager->create();
 ```
 
 Use the nonce name and value to build, for instance, a HTML form:
 ```php
+<input type="hidden"
+       name="token_name"
+       value="<?= htmlspecialchars($nonce->getName()) ?>" />
 <input type="hidden"
        name="<?= htmlspecialchars($nonce->getName()) ?>"
        value="<?= htmlspecialchars($nonce->getValue()) ?>" />
@@ -55,15 +51,19 @@ Use the nonce name and value to build, for instance, a HTML form:
 
 When the form is submitted, validate the submitted value and remove the nonce:
 ```php
-$isValid = $manager->verify('action', $_POST['{$user_id}_form-nc']);
-$manager->expire('action');
+$tokenName = $_POST['token_name'] ?? '';
+$tokenValue = $_POST[$tokenName] ?? '';
+
+$isValid = $manager->verify($tokenName, $tokenValue);
+$manager->expire($tokenName);
 ```
 
-## Examples
+### Examples
 
 - [Using Symfony ArrayCache](php/examples/manager.php)
 - [CLI test](php/examples/cli-manager-test.php)
-- [HTML Form test](php/examples/phtml-manager-test.php)
+- [HTML form using a session](php/examples/phtml-manager-test.php)
+- [HTML form using an auto generated nonce name](php/examples/phtml-auto-nonce-name.php)
 
 ## Running the tests
 

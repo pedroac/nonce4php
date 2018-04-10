@@ -4,15 +4,9 @@ require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use \pedroac\nonce\NoncesManager;
 
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['user_id'] = rand(1, 9999);
-}
-$user_id = $_SESSION['user_id'];
-
 $nonce = null;
 $isValid = null;
-$tokenName = "{$user_id}_form";
+$tokenName = $_POST['token_name'] ?? null;
 $tokenValue = $_POST[$tokenName] ?? null;
 
 /**
@@ -24,9 +18,9 @@ $manager = new NoncesManager(new FilesystemCache);
  * When the form is submitted, validate the submitted 
  * value and remove the nonce.
  */
-if ($tokenValue) {
+if ($tokenName && $tokenValue) {
     $isValid = $manager->verify($tokenName, $tokenValue);
-    $manager->expire($tokenName);
+    $manager->expire();
 }
 
 /**
@@ -34,7 +28,7 @@ if ($tokenValue) {
  * value was not valid.
  */
 if (!$isValid) {
-    $nonce = $manager->create($tokenName);
+    $nonce = $manager->create();
 }
 ?>
 <!DOCTYPE html>
@@ -49,6 +43,9 @@ if (!$isValid) {
                 <p>Invalid!</p>
             <?php endif; ?>
             <form method="POST">
+                <input type="hidden"
+                    name="token_name"
+                    value="<?= htmlspecialchars($nonce->getName()) ?>" />
                 <input type="hidden"
                     name="<?= htmlspecialchars($nonce->getName()) ?>"
                     value="<?= htmlspecialchars($nonce->getValue()) ?>" />
