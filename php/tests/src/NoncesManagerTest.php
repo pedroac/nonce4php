@@ -104,6 +104,23 @@ class NoncesManagerTest extends TestCase
         $manager->expire('my-form');
         $this->assertSame(null, $storage->get('my-form'));
     }
+
+    /**
+     * @covers \pedroac\nonce\NoncesManager::create
+     * @covers \pedroac\nonce\NoncesManager::verify
+     * @covers \pedroac\nonce\NoncesManager::__construct
+     */
+    public function testInvalidCachedItem()
+    {
+        $manager = new NoncesManager(
+            $storage = new ArrayCache(60),
+            new FakeRandom
+        );
+        $manager->create('my-form');
+        $storage->set('my-form', 'not-nonce');
+        $this->expectException(\RunTimeException::class);
+        $manager->verify('my-form', 'qwerty123');
+    }
 }
 
 class FakeRandom implements \pedroac\nonce\Random
