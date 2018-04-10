@@ -45,14 +45,14 @@ Use the nonce name and value to build, for instance, a HTML form:
        name="token_name"
        value="<?= htmlspecialchars($nonce->getName()) ?>" />
 <input type="hidden"
-       name="<?= htmlspecialchars($nonce->getName()) ?>"
+       name="token_value"
        value="<?= htmlspecialchars($nonce->getValue()) ?>" />
 ```
 
 When the form is submitted, validate the submitted value and remove the nonce:
 ```php
-$tokenName = $_POST['token_name'] ?? '';
-$tokenValue = $_POST[$tokenName] ?? '';
+$tokenName = filter_input(INPUT_POST, 'token_name']);
+$tokenValue = filter_input(INPUT_POST, 'token_value']);
 
 $isValid = $manager->verify($tokenName, $tokenValue);
 $manager->expire($tokenName);

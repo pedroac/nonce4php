@@ -6,8 +6,8 @@ use \pedroac\nonce\NoncesManager;
 
 $nonce = null;
 $isValid = null;
-$tokenName = $_POST['token_name'] ?? null;
-$tokenValue = $_POST[$tokenName] ?? null;
+$tokenName = filter_input('token_name', INPUT_POST);
+$tokenValue = filter_input('token_value', INPUT_POST);
 
 /**
  * Instantiate a nonces manager using a files system cache.
@@ -47,7 +47,7 @@ if (!$isValid) {
                     name="token_name"
                     value="<?= htmlspecialchars($nonce->getName()) ?>" />
                 <input type="hidden"
-                    name="<?= htmlspecialchars($nonce->getName()) ?>"
+                    name="token_value"
                     value="<?= htmlspecialchars($nonce->getValue()) ?>" />
                 <input type="submit" name="myform" value="Submit" />
             </form>

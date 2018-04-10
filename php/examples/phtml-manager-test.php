@@ -13,7 +13,7 @@ $user_id = $_SESSION['user_id'];
 $nonce = null;
 $isValid = null;
 $tokenName = "{$user_id}_form";
-$tokenValue = $_POST[$tokenName] ?? null;
+$tokenValue = filter_input(INPUT_POST, $tokenName);
 
 /**
  * Instantiate a nonces manager using a files system cache.
