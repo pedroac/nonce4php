@@ -1,9 +1,13 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-session_start();
-$manager = new \pedroac\nonce\NoncesManager(
-    new \pedroac\nonce\StorageNonces\NoncesArrayStorage($_SESSION),
-    new \pedroac\nonce\Random\HexRandomizer(32)
+
+use Symfony\Component\Cache\Simple\FilesystemCache;
+use \pedroac\nonce\NoncesManager;
+use \pedroac\nonce\Random\HexRandomizer;
+
+$manager = new NoncesManager(
+    new FilesystemCache,
+    new HexRandomizer(32)
 );
 $nonce = null;
 $isValid = null;
@@ -26,7 +30,7 @@ if (!$isValid) {
         <?php if ($nonce) : ?>
             <form method="POST">
                 <input type="hidden"
-                    name="_nc"
+                    name="<?= htmlspecialchars($nonce->getName()) ?>"
                     value="<?= htmlspecialchars($nonce->getValue()) ?>" />
                 <input type="submit" name="myform" value="Submit" />
             </form>

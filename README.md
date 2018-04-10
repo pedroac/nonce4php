@@ -5,18 +5,21 @@
 [![Support via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/pedroac)
 
 A nonce manager PHP library useful for preventing CSRF attacks.  
-The nonces generator and storage can be customised and selected.
+The nonces generator and storage can be customised, extendable and selected.
 
 ## Prerequisites
 
 - PHP 7.1 or later: http://php.net/downloads.php
 - Composer: https://getcomposer.org
+- At least one PSR-6 implementation. Examples:
+  - [symfony/cache](https://packagist.org/packages/symfony/cache)
+  - [matthiasmullie/scrapbook](https://packagist.org/packages/matthiasmullie/scrapbook)
 
 ## Installing
 
 Run the command:
 
-`composer require pedroac/nonce:dev-master`
+`composer require pedroac/nonce`
 
 ## Usage
 
@@ -25,39 +28,40 @@ Instantiate a nonce manager:
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
+use Symfony\Component\Cache\Simple\FilesystemCache;
+use \pedroac\nonce\NoncesManager;
+use \pedroac\nonce\Random\HexRandomizer;
+
 session_start();
-$manager = new \pedroac\nonce\NoncesManager(
-    new \pedroac\nonce\StorageNonces\NoncesArrayStorage($_SESSION),
-    new \pedroac\nonce\Random\HexRandomizer(32),
-    new \DateInterval('PT1H')
+$user_id = $_SESSION['user_id'];
+$manager = new NoncesManager(
+    new FilesystemCache,
+    new HexRandomizer(12), // optional
+    new \DateInterval('PT1H') // optional
 );
 ```
 
 Generate a nonce:
 ```php
-$nonce = $manager->create('_form-nc');
+$nonce = $manager->create("{$user_id}_form-nc");
 ```
 
 Use the nonce name and value to build, for instance, a HTML form:
 ```php
 <input type="hidden"
-       name="_form-nc"
+       name="<?= htmlspecialchars($nonce->getName()) ?>"
        value="<?= htmlspecialchars($nonce->getValue()) ?>" />
 ```
 
 When the form is submitted, validate the submitted value and remove the nonce:
 ```php
-$isValid = $manager->verify('action', $_POST['_form-nc']);
+$isValid = $manager->verify('action', $_POST['{$user_id}_form-nc']);
 $manager->expire('action');
-```
-
-Unusable nonces might be removed periodically using a cron job:
-```php
-$manager->purge();
 ```
 
 ## Examples
 
+- [Using Symfony ArrayCache](php/examples/manager.php)
 - [CLI test](php/examples/cli-manager-test.php)
 - [HTML Form test](php/examples/phtml-manager-test.php)
 

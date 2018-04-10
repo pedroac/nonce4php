@@ -4,6 +4,7 @@ namespace pedroac\nonce;
 
 /**
  * Interface for string randomizers.
+ * 
  * It might be used to create nonces with random values.
  * 
  * @author Pedro Amaral Couto

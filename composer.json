@@ -22,14 +22,20 @@
     "autoload": {
         "psr-4": {"pedroac\\nonce\\": "php/lib"}
     },
+    "suggest": {
+        "symfony/cache": "^4.0.8"
+    },
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "psr/simple-cache": "@stable",
+        "kdyby/datetime-provider": "^1.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "^7.1.1",
         "squizlabs/php_codesniffer": "@stable",
         "phpmd/phpmd" : "@stable",
         "phpdocumentor/phpdocumentor": "@stable",
-        "codacy/coverage": "dev-master"
+        "codacy/coverage": "dev-master",
+        "symfony/cache": "^4.0.8"
     }
 }

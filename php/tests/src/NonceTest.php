@@ -4,6 +4,7 @@ namespace pedroac\nonce;
 
 use PHPUnit\Framework\TestCase;
 use pedroac\nonce\Nonce;
+use Kdyby\DateTimeProvider\Provider\MutableProvider;
 
 /**
  * Nonce class unit tests.
@@ -50,73 +51,29 @@ class NonceTest extends TestCase
     }
 
     /**
-     * @covers pedroac\nonce\Nonce::getExpiration
-     * @covers pedroac\nonce\Nonce::__construct
-     */
-    public function testGetExpiration()
-    {
-        $now = new \DateTimeImmutable;
-        $this->assertEquals(
-            $now,
-            (
-                new Nonce('my-form', 'qwerty123', $now)
-            )->getExpiration()
-        );
-    }
-
-    /**
      * @covers pedroac\nonce\Nonce::isExpired
      * @covers pedroac\nonce\Nonce::__construct
      */
     public function testIsExpired()
     {
+        $now = new MutableProvider(new \DateTimeImmutable);
         $nonce = new Nonce(
             'my-form',
             'qwerty123',
-            new \DateTimeImmutable('2018-03-29 12:30')
+            (new \DateTimeImmutable)->add(new \DateInterval('PT1S')),
+            $now
         );
-        $this->assertTrue(
-            $nonce->isExpired(
-                new \DateTimeImmutable('2018-03-29 12:31')
-            )
-        );
-        $this->assertFalse(
-            $nonce->isExpired(
-                new \DateTimeImmutable('2018-03-29 12:29')
-            )
-        );
-        $this->assertFalse(
-            $nonce->isExpired(
-                new \DateTimeImmutable('2018-03-29 12:30')
-            )
-        );
-    }
 
-    /**
-     * @covers pedroac\nonce\Nonce::isExpired
-     * @covers pedroac\nonce\Nonce::__construct
-     */
-    public function testIsExpiredNow()
-    {
-        $this->assertTrue(
-            (
-                new Nonce(
-                    'my-form',
-                    'qwerty123',
-                    (new \DateTimeImmutable)
-                        ->sub(new \DateInterval('PT1H'))
-                )
-            )->isExpired()
-        );
         $this->assertFalse(
-            (
-                new Nonce(
-                    'my-form',
-                    'qwerty123',
-                    (new \DateTimeImmutable)
-                        ->add(new \DateInterval('PT1H'))
-                )
-            )->isExpired()
+            $nonce->isExpired()
+        );
+
+        $now->changePrototype(
+            (new \DateTimeImmutable)
+                ->add(new \DateInterval('PT1S'))
+        );
+        $this->assertTrue(
+            $nonce->isExpired()
         );
     }
 
@@ -126,71 +83,42 @@ class NonceTest extends TestCase
      */
     public function testVerify()
     {
+        $now = new MutableProvider(new \DateTimeImmutable);
         $nonce = new Nonce(
             'my-form',
             'qwerty123',
-            new \DateTimeImmutable('2018-03-29 12:30')
+            (new \DateTimeImmutable)->add(new \DateInterval('PT1S'))
         );
+        
         $this->assertTrue(
             $nonce->verify(
                 'my-form',
-                'qwerty123',
-                new \DateTimeImmutable('2018-03-29 12:29')
+                'qwerty123'
             )
         );
+        
         $this->assertFalse(
             $nonce->verify(
                 'my-form',
-                'qwerty123',
-                new \DateTimeImmutable('2018-03-29 12:31')
+                'qwerty123a'
             )
         );
-        $this->assertFalse(
-            $nonce->verify(
-                'my-form',
-                'qwerty1234',
-                new \DateTimeImmutable('2018-03-29 12:29')
-            )
-        );
-        $this->assertFalse(
-            $nonce->verify(
-                'my-forms',
-                'qwerty123',
-                new \DateTimeImmutable('2018-03-29 12:29')
-            )
-        );
-    }
 
-    /**
-     * @covers pedroac\nonce\Nonce::verify
-     * @covers pedroac\nonce\Nonce::__construct
-     */
-    public function testVerifyNow()
-    {
-        $this->assertTrue(
-            (
-                new Nonce(
-                    'my-form',
-                    'qwerty123',
-                    (new \DateTimeImmutable)
-                        ->add(new \DateInterval('PT1H'))
-                )
-            )->verify(
-                'my-form',
+        $this->assertFalse(
+            $nonce->verify(
+                'my-forma',
                 'qwerty123'
             )
         );
+        
+        $now->changePrototype(
+            (new \DateTimeImmutable)
+                ->add(new \DateInterval('PT1S'))
+        );
         $this->assertFalse(
-            (
-                new Nonce(
-                    'my-form',
-                    'qwerty123',
-                    (new \DateTimeImmutable)
-                        ->sub(new \DateInterval('PT1H'))
-                )
-            )->verify(
+            $nonce->verify(
                 'my-form',
-                'qwerty123'
+                'qwerty1234'
             )
         );
     }
