@@ -5,7 +5,7 @@
 [![Support via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/pedroac)
 
 A nonce manager PHP library useful for preventing CSRF attacks.  
-The nonces generator and storage can be customised, extendable and selected.
+The nonces generator and storage can be customized, extendable and selected.
 
 ## Prerequisites
 
@@ -54,14 +54,14 @@ $form = new NonceForm(
 $htmlField = new HtmlNonceField($form);
 ```
 
-2) Check if it was submitted a valid token and handle it:
+2) Check if a valid token was submitted:
 ```php
 if ($form->wasSubmittedValid()) {
   // handle success
 }
 ```
 
-3) Check if it was submitted an invalid token and handle it:
+3) Check if an invalid token was submitted:
 ```php
 if ($form->wasSubmittedInvalid()) {
   // handle failure
@@ -109,8 +109,8 @@ $nonce = $manager->create();
 
 4) When the request is submitted, validate the submitted value and remove the nonce:
 ```php
-$tokenName = filter_input(INPUT_POST, 'token_name']);
-$tokenValue = filter_input(INPUT_POST, 'token_value']);
+$tokenName = filter_input(INPUT_POST, 'token_name');
+$tokenValue = filter_input(INPUT_POST, 'token_value');
 
 $isValid = $manager->verify($tokenName, $tokenValue);
 $manager->expire($tokenName);
@@ -118,7 +118,7 @@ $manager->expire($tokenName);
 
 ### Options
 
-It's possible to select the random nonce value generator and the expire interval: 
+Besides the nonces cache storage, it's possible to select the random nonce value generator and the expiration interval: 
 
 ```php
 <?php
@@ -142,7 +142,7 @@ $tokenName = "{$user_id}_form";
 $nonce = $manager->create($tokenName);
 ```
 
-NonceForm default input source is $_POST, but it accepts any array input:
+`NonceForm` default input source is $_POST, but it accepts any array input:
 ```php
 $form = new NonceForm(
     'token',
@@ -167,7 +167,7 @@ Run from the library root folder:
 
 `sh scripts/generate-docs.sh`
 
-If generated documention should be inside the folder `docs`.
+If generated documentation should be inside the folder `docs`.
 
 ## Versioning
 
@@ -182,6 +182,6 @@ It should be used [SemVer](http://semver.org/) for versioning.
 pedroac/nonce is released under the MIT public license.  
 See the enclosed [LICENSE](LICENSE) for details.
 
-## Acknowledgements
+## Acknowledgments
 
 The library was developed as a private request response made by a Stackoverflow user.
