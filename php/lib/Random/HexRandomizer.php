@@ -1,4 +1,7 @@
 <?php
+/**
+ * HexRandomizer class.
+ */
 
 namespace pedroac\nonce\Random;
 use \pedroac\nonce\Random;

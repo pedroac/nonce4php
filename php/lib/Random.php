@@ -1,4 +1,7 @@
 <?php
+/**
+ * Random interface.
+ */
 
 namespace pedroac\nonce;
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Nonce class.
+ */
 
 namespace pedroac\nonce;
 use Kdyby\DateTimeProvider\DateTimeProviderInterface;
