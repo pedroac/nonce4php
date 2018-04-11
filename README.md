@@ -12,6 +12,7 @@ The nonces generator and storage can be customised, extendable and selected.
 - PHP 7.1 or later: http://php.net/downloads.php
 - Composer: https://getcomposer.org
 - At least one PSR-6 implementation. Examples:
+- At least one PSR-16 implementation. Examples:
   - [symfony/cache](https://packagist.org/packages/symfony/cache)
   - [matthiasmullie/scrapbook](https://packagist.org/packages/matthiasmullie/scrapbook)
 
