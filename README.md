@@ -161,6 +161,14 @@ Run from the library root folder:
 
 If the tests were successful, `php/tests/coverage-html` should have the code coverage report.
 
+## Generating the HTML documentation
+
+Run from the library root folder:
+
+`sh scripts/generate-docs.sh`
+
+If generated documention should be inside the folder `docs`.
+
 ## Versioning
 
 It should be used [SemVer](http://semver.org/) for versioning.
