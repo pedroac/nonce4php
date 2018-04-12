@@ -51,7 +51,7 @@ The HTML forms can be tested using a PHP built-in web server.
 From the `php/examples` folder run the command:
 ```bash
 php -S localhost:8000
-````
+```
 Use the URL http://localhost:8000/ in a browser.
 
 ### HTML form with a token
@@ -99,7 +99,7 @@ if ($form->wasSubmittedInvalid()) {
 }
 ```
 
-4) If an invalid token wasn't submitted, make the HTML form:
+4) Implement the HTML form:
 ```php
 <form method="POST">
     <?= $htmlField ?>
@@ -128,23 +128,21 @@ $manager = new NoncesManager(new FilesystemCache);
 $isValidToken = false;
 $isValidForm = false;
 $wasSubmitted = filter_has_var(INPUT_POST, 'myform');
+$tokenName = filter_input(INPUT_POST, 'token_name');
+$tokenValue = filter_input(INPUT_POST, 'token_value') ?? '';
 
-if ($wasSubmitted) {
-  // TODO: validate form
-  $tokenName = filter_input(INPUT_POST, 'token_name');
-  $tokenValue = filter_input(INPUT_POST, 'token_value');
-
-  $isValidToken = $manager->verify($tokenName, $tokenValue);
-  $manager->expire($tokenName);
-  if (!$isValidToken) {
-    // handle invalid token
-  }
+if ($tokenName) {
+    $isValidToken = $manager->verify($tokenName, $tokenValue);
+    $manager->expire($tokenName);
+}
+if ($wasSubmitted && $isValidToken) {
+    // validate input
 }
 ```
 
 3) Generate a nonce when appropriate:
 ```php
-if (!$wasSubmitted || $isValidToken) {
+if (!$wasSubmitted || (!$isValidForm && $isValidToken)) {
   $nonce = $manager->create();
 }
 ```

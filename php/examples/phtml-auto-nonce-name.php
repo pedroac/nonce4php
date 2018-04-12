@@ -5,10 +5,12 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 use \pedroac\nonce\NoncesManager;
 
 $nonce = null;
-$isValid = null;
+$isValidForm = false;
+$isValidToken = false;
 $wasSubmitted = filter_has_var(INPUT_POST, 'myform');
+$inputNumber = filter_input(INPUT_POST, 'number') ?? '';
 $tokenName = filter_input(INPUT_POST, 'token_name');
-$tokenValue = filter_input(INPUT_POST, 'token_value');
+$tokenValue = filter_input(INPUT_POST, 'token_value') ?? '';
 
 /**
  * Instantiate a nonces manager using a files system cache.
@@ -19,17 +21,20 @@ $manager = new NoncesManager(new FilesystemCache);
  * When the form is submitted, validate the submitted 
  * value and remove the nonce.
  */
-if ($tokenName && $tokenValue) {
-    $isValid = $manager->verify($tokenName, $tokenValue);
+if ($tokenName) {
+    $isValidToken = $manager->verify($tokenName, $tokenValue);
     $manager->expire($tokenName);
+}
+if ($wasSubmitted && $isValidToken) {
+    $isValidForm = is_numeric($inputNumber);
 }
 
 /**
  * Generate a nonce if the form was not submit or the submitted 
- * token is valid.
+ * input is not valid.
  */
-if (!$wasSubmitted) {
-    $nonce = $manager->create();
+if (!$wasSubmitted || (!$isValidForm && $isValidToken)) {
+    $nonce = $manager->create($tokenName);
 }
 ?>
 <!DOCTYPE html>
@@ -39,16 +44,15 @@ if (!$wasSubmitted) {
         <title>Page Title</title>
     </head>
     <body>
-        <?php if ($wasSubmitted) : ?>
-            <?php if ($isValid) : ?>
-                <p>Sucess!</p>
-            <?php else : ?>
-                <p>Invalid token!</p>
-            <?php endif; ?>
-        <?php endif; ?>
-        
         <?php if ($nonce) : ?>
+            <?php if ($wasSubmitted && !$isValidForm) : ?>
+                <p>Invalid input!</p>
+            <?php endif; ?>
             <form method="POST">
+                Number:
+                <input type="text"
+                        name="number"
+                        value="<?= $inputNumber ?>" />
                 <input type="hidden"
                        name="token_name"
                        value="<?= htmlspecialchars($nonce->getName()) ?>" />
@@ -57,6 +61,12 @@ if (!$wasSubmitted) {
                        value="<?= htmlspecialchars($nonce->getValue()) ?>" />
                 <input type="submit" name="myform" value="Submit" />
             </form>
+        <?php elseif (!$isValidToken) : ?>
+            <p>Invalid token!</p>
+        <?php elseif ($isValidForm) : ?>
+            <p>Success! Resending the form will throw an error.</p>
+        <?php else : ?>
+            <p>Unexpected state!</p>
         <?php endif; ?>
     </body>
 </html>
