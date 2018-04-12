@@ -21,7 +21,7 @@ It seems, though, that many PHP nonces libraries are too restrictive, coupled wi
 
 It allows choosing any [PSR-16](https://www.php-fig.org/psr/psr-16/) implementation to store temporarily the nonces, nonces values generators, expiration intervals and even a [`DateTime` provider](https://github.com/Kdyby/DateTimeProvider) to override the clock system (this feature is used for unit tests).
 
-It also provides helpers to manage input, generates random nonces names and values, verifies submitted tokens against the nonce and generates HTML elements.
+It also provides helpers to manage input, generate random nonces names and values, verify submitted tokens against the nonce and generate HTML elements.
 
 ## Prerequisites
 
