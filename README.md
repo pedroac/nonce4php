@@ -4,8 +4,18 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d099b114ef4f4d99bb1f39a8064aa8c4)](https://app.codacy.com/app/pedroac/nonce4php?utm_source=github.com&utm_medium=referral&utm_content=pedroac/nonce4php&utm_campaign=badger)
 [![Support via PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/pedroac)
 
-A nonce manager PHP library useful for preventing CSRF attacks.  
+A [nonce](https://www.computerhope.com/jargon/n/nonce.htm) manager PHP library useful for preventing [CSRF](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)) and [replay attacks](http://www.crypto-it.net/eng/attacks/replay.html).
+
 The nonces generator and storage can be customized, extendable and selected.
+
+Articles and videos explaining the vulnerabilities and how to prevent them:
+- [YouTube - Jmaxxz - CSRF Explained](https://www.youtube.com/watch?v=vrjgD0azkCw)
+- [YouTube - Professor Messer - Cross-site Request Forgery](https://www.youtube.com/watch?v=rbP2jwEDlBM)
+- [YouTube - Professor Messer - Replay Attacks](https://www.youtube.com/watch?v=jy8USm8pIYM)
+- [YouTube - Hak5 - How to Hack Wireless Remotes with Radio Replay Attacks](https://www.youtube.com/watch?v=F3bISk5t8cA)
+- [Coding Horror - Preventing CSRF and XSRF Attacks](https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/)
+- [acunetix - CSRF Attacks, XSRF or Sea-Surf](https://www.acunetix.com/websitesecurity/csrf-attacks/)
+- [SitePoint - How to Prevent Replay Attacks on Your Website](https://www.sitepoint.com/how-to-prevent-replay-attacks-on-your-website/)
 
 ## Prerequisites
 
