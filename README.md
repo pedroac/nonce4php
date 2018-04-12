@@ -41,6 +41,13 @@ Run the command:
 - [HTML form using an auto generated nonce name](php/examples/phtml-auto-nonce-name.php)
 - [HTML form using a helper](php/examples/phtml-easy-form.php)
 
+The HTML forms can be testes using a builting PHP server.  
+From the `php/examples` folder run the command:
+```bash
+php -S localhost:8000
+````
+Use the URL http://localhost:8000/ in a browser.
+
 ### HTML form with a token
 
 1) Create a nonce form helper:
@@ -67,18 +74,26 @@ $htmlField = new HtmlNonceField($form);
 2) Check if a valid token was submitted:
 ```php
 if ($form->wasSubmittedValid()) {
-  // handle success
+  /**
+   * handle the success:
+   * - if all form input is valid, show success page;
+   * - otherwise, show an error page and the form again;
+   */
 }
 ```
 
 3) Check if an invalid token was submitted:
 ```php
 if ($form->wasSubmittedInvalid()) {
-  // handle failure
+  /**
+   * handle failure:
+   * - don't show the form again;
+   * - show an error message;
+   */
 }
 ```
 
-4) Make the HTML form:
+4) If an invalid token wasn't submitted, make the HTML form:
 ```php
 <form method="POST">
     <?= $htmlField ?>
@@ -102,28 +117,43 @@ use \pedroac\nonce\NoncesManager;
 $manager = new NoncesManager(new FilesystemCache);
 ```
 
-2) Generate a nonce:
+2) When a request is submitted, validate the submitted token and remove the nonce:
 ```php
-$nonce = $manager->create();
+$isValidToken = false;
+$isValidForm = false;
+$wasSubmitted = filter_has_var(INPUT_POST, 'myform');
+
+if ($wasSubmitted) {
+  // TODO: validate form
+  $tokenName = filter_input(INPUT_POST, 'token_name');
+  $tokenValue = filter_input(INPUT_POST, 'token_value');
+
+  $isValidToken = $manager->verify($tokenName, $tokenValue);
+  $manager->expire($tokenName);
+  if (!$isValidToken) {
+    // handle invalid token
+  }
+}
 ```
 
-3) Use the nonce name and value to build, for instance, a HTML form:
+3) Generate a nonce when appropriate:
 ```php
-<input type="hidden"
-       name="token_name"
-       value="<?= htmlspecialchars($nonce->getName()) ?>" />
-<input type="hidden"
-       name="token_value"
-       value="<?= htmlspecialchars($nonce->getValue()) ?>" />
+if (!$wasSubmitted || $isValidToken) {
+  $nonce = $manager->create();
+}
 ```
 
-4) When the request is submitted, validate the submitted value and remove the nonce:
+4) Use the nonce name and value to build, for instance, a HTML form:
 ```php
-$tokenName = filter_input(INPUT_POST, 'token_name');
-$tokenValue = filter_input(INPUT_POST, 'token_value');
-
-$isValid = $manager->verify($tokenName, $tokenValue);
-$manager->expire($tokenName);
+<?php if ($nonce) : ?>
+  <input type="hidden"
+        name="token_name"
+        value="<?= htmlspecialchars($nonce->getName()) ?>" />
+  <input type="hidden"
+        name="token_value"
+        value="<?= htmlspecialchars($nonce->getValue()) ?>" />
+  <input type="submit" name="myform" value="Submit" />
+<?php endif; >
 ```
 
 ### Options
@@ -148,6 +178,7 @@ $manager = new NoncesManager(
 It's also possible to create a nonce with a specified name:
 
 ```php
+$user_id = $_SESSION['user_id'];
 $tokenName = "{$user_id}_form";
 $nonce = $manager->create($tokenName);
 ```

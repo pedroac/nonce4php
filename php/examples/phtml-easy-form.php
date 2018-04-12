@@ -26,14 +26,12 @@ $htmlField = new HtmlNonceField($form);
     </head>
     <body>
         <!-- If a submitted token is valid... -->
-        <?php if ($form->wasSubmittedValid()) : ?>
-            <p>Success!</p>
+        <?php if ($form->isSubmittedInvalid()) : ?>
+            <p>Invalid token!</p>
         <!-- Otherwise, it wasnt't submitted or it's invalid ...-->
+        <?php elseif ($form->isSubmittedValid()) : ?>
+            <p>Success!</p>
         <?php else: ?>
-            <!-- If it's invalid... -->
-            <?php if ($form->wasSubmittedInvalid()) : ?>
-                <p>Invalid token!</p>
-            <?php endif; ?>
             <form method="POST">
                 <?= $htmlField ?>
                 <input type="submit" name="myform" value="Submit" />

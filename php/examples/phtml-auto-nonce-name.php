@@ -6,8 +6,9 @@ use \pedroac\nonce\NoncesManager;
 
 $nonce = null;
 $isValid = null;
-$tokenName = filter_input('token_name', INPUT_POST);
-$tokenValue = filter_input('token_value', INPUT_POST);
+$wasSubmitted = filter_has_var(INPUT_POST, 'myform');
+$tokenName = filter_input(INPUT_POST, 'token_name');
+$tokenValue = filter_input(INPUT_POST, 'token_value');
 
 /**
  * Instantiate a nonces manager using a files system cache.
@@ -20,14 +21,14 @@ $manager = new NoncesManager(new FilesystemCache);
  */
 if ($tokenName && $tokenValue) {
     $isValid = $manager->verify($tokenName, $tokenValue);
-    $manager->expire();
+    $manager->expire($tokenName);
 }
 
 /**
  * Generate a nonce if the form was not submit or the submitted 
- * value was not valid.
+ * token is valid.
  */
-if (!$isValid) {
+if (!$wasSubmitted) {
     $nonce = $manager->create();
 }
 ?>
@@ -38,21 +39,24 @@ if (!$isValid) {
         <title>Page Title</title>
     </head>
     <body>
-        <?php if ($nonce) : ?>
-            <?php if ($isValid === false) : ?>
-                <p>Invalid!</p>
+        <?php if ($wasSubmitted) : ?>
+            <?php if ($isValid) : ?>
+                <p>Sucess!</p>
+            <?php else : ?>
+                <p>Invalid token!</p>
             <?php endif; ?>
+        <?php endif; ?>
+        
+        <?php if ($nonce) : ?>
             <form method="POST">
                 <input type="hidden"
-                    name="token_name"
-                    value="<?= htmlspecialchars($nonce->getName()) ?>" />
+                       name="token_name"
+                       value="<?= htmlspecialchars($nonce->getName()) ?>" />
                 <input type="hidden"
-                    name="token_value"
-                    value="<?= htmlspecialchars($nonce->getValue()) ?>" />
+                       name="token_value"
+                       value="<?= htmlspecialchars($nonce->getValue()) ?>" />
                 <input type="submit" name="myform" value="Submit" />
             </form>
-        <?php elseif ($isValid): ?>
-            <p>Success!</p>
         <?php endif; ?>
     </body>
 </html>

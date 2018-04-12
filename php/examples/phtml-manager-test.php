@@ -11,7 +11,8 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 $nonce = null;
-$isValid = null;
+$isValid = false;
+$wasSubmitted = filter_has_var(INPUT_POST, 'myform');
 $tokenName = "{$user_id}_form";
 $tokenValue = filter_input(INPUT_POST, $tokenName);
 
@@ -33,7 +34,7 @@ if ($tokenValue) {
  * Generate a nonce if the form was not submit or the submitted 
  * value was not valid.
  */
-if (!$isValid) {
+if (!$wasSubmitted) {
     $nonce = $manager->create($tokenName);
 }
 ?>
@@ -44,18 +45,21 @@ if (!$isValid) {
         <title>Page Title</title>
     </head>
     <body>
-        <?php if ($nonce) : ?>
-            <?php if ($isValid === false) : ?>
-                <p>Invalid!</p>
+        <?php if ($wasSubmitted) : ?>
+            <?php if ($isValid) : ?>
+                <p>Sucess!</p>
+            <?php else : ?>
+                <p>Invalid token!</p>
             <?php endif; ?>
+        <?php endif; ?>
+        
+        <?php if ($nonce) : ?>
             <form method="POST">
                 <input type="hidden"
-                    name="<?= htmlspecialchars($nonce->getName()) ?>"
-                    value="<?= htmlspecialchars($nonce->getValue()) ?>" />
+                       name="<?= htmlspecialchars($tokenName) ?>"
+                       value="<?= htmlspecialchars($nonce->getValue()) ?>" />
                 <input type="submit" name="myform" value="Submit" />
             </form>
-        <?php elseif ($isValid): ?>
-            <p>Success!</p>
         <?php endif; ?>
     </body>
 </html>
