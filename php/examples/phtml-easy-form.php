@@ -12,7 +12,7 @@ const STATE_INVALID_INPUT = 3;
 const STATE_INVALID_TOKEN = 4;
 $isValidForm = false;
 $state = STATE_NOT_SUBMITTED;
-$inputNumber = filter_has_var(INPUT_POST, 'number');
+$inputNumber = filter_input(INPUT_POST, 'number');
 
 /**
  * Create a nonce form manager.
@@ -29,7 +29,7 @@ if ($form->isSubmittedInvalid()) {
     $state = STATE_INVALID_TOKEN;
 } else if ($form->isSubmittedValid()) {
     $isValidForm = is_numeric($inputNumber);
-    $state = $isValidForm ? STATE_SUCCESS : STATE_INVALID_TOKEN;
+    $state = $isValidForm ? STATE_SUCCESS : STATE_INVALID_INPUT;
 }
 
 /**
