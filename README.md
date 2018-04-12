@@ -211,7 +211,7 @@ Run from the library root folder:
 
 `sh scripts/generate-docs.sh`
 
-If generated documentation should be inside the folder `docs`.
+The generated documentation should be inside the folder `docs`.
 
 ## Versioning
 
