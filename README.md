@@ -132,8 +132,7 @@ $tokenName = filter_input(INPUT_POST, 'token_name');
 $tokenValue = filter_input(INPUT_POST, 'token_value') ?? '';
 
 if ($tokenName) {
-    $isValidToken = $manager->verify($tokenName, $tokenValue);
-    $manager->expire($tokenName);
+    $isValidToken = $manager->verifyAndExpire($tokenName, $tokenValue);
 }
 if ($wasSubmitted && $isValidToken) {
     // validate input

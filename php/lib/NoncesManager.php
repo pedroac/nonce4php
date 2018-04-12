@@ -142,6 +142,27 @@ class NoncesManager
     }
 
     /**
+     * Verify a token and remove the nonce with the specified name.
+     * 
+     * Check if there's a nounce which has not expired with the specified 
+     * name and value. Also, if there's a nonce with the specified name, it 
+     * should be removed from the cache storage.
+     * 
+     * @param string $name The nonce name.
+     * @param string $value The nonce value.
+     * @return boolean Is there a valid nonce with the specified name and value?
+     * @throws \RuntimeException if the cached value type is unexpected.
+     */
+    public function verifyAndExpire(
+        string $name,
+        string $value
+    ): bool {
+        $isValid = $this->verify($name, $value);
+        $this->expire($name);
+        return $isValid;
+    }
+
+    /**
      * Check if there's a nounce which has not expired with the specified 
      * name and value.
      * 
@@ -171,7 +192,8 @@ class NoncesManager
     /**
      * Remove a specified nonce.
      *
-     * The nonce should be removed from the cache storage.
+     * If there's a nonce with the specified name, it should be removed 
+     * from the cache storage.
      * 
      * @param string $name The nonce name that should be removed.
      * @return void

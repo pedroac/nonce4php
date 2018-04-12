@@ -158,6 +158,33 @@ class NoncesManagerTest extends TestCase
 
     /**
      * @covers \pedroac\nonce\NoncesManager::create
+     * @covers \pedroac\nonce\NoncesManager::verifyAndExpire
+     * @covers \pedroac\nonce\NoncesManager::__construct
+     */
+    public function testVerifyAndExpire()
+    {
+        $now = new MutableProvider(new \DateTimeImmutable);
+        $manager = new NoncesManager(
+            $storage = new ArrayCache(60),
+            new FakeRandom,
+            new \DateInterval('PT1S')
+        );
+
+        $manager->create('my-form-1');
+        $this->assertTrue(
+            $manager->verifyAndExpire('my-form-1', 'qwerty123')
+        );
+        $this->assertNull($storage->get('my-form-1'));
+
+        $nonce = $manager->create('my-form-2');
+        $this->assertFalse(
+            $manager->verifyAndExpire('my-form-1', 'qwerty456')
+        );
+        $this->assertEquals($nonce, $storage->get('my-form-2'));
+    }
+
+    /**
+     * @covers \pedroac\nonce\NoncesManager::create
      * @covers \pedroac\nonce\NoncesManager::verify
      * @covers \pedroac\nonce\NoncesManager::__construct
      */

@@ -22,8 +22,7 @@ $manager = new NoncesManager(new FilesystemCache);
  * value and remove the nonce.
  */
 if ($tokenName) {
-    $isValidToken = $manager->verify($tokenName, $tokenValue);
-    $manager->expire($tokenName);
+    $isValidToken = $manager->verifyAndVerify($tokenName, $tokenValue);
 }
 if ($wasSubmitted && $isValidToken) {
     $isValidForm = is_numeric($inputNumber);
