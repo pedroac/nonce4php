@@ -60,7 +60,7 @@ class NoncesManagerTest extends TestCase
     {
         $now = new MutableProvider(new \DateTimeImmutable);
         $manager = new NoncesManager(
-            $storage = new ArrayCache(60),
+            new ArrayCache(60),
             null,
             null,
             $now
@@ -160,7 +160,8 @@ class NoncesManagerTest extends TestCase
         $manager = new NoncesManager(
             $storage = new ArrayCache(60),
             new FakeRandom,
-            new \DateInterval('PT1S')
+            new \DateInterval('PT1S'),
+            $now
         );
 
         $manager->create('my-form-1');
@@ -174,6 +175,15 @@ class NoncesManagerTest extends TestCase
             $manager->verifyAndExpire('my-form-1', 'qwerty456')
         );
         $this->assertEquals($nonce, $storage->get('my-form-2'));
+
+        $nonce = $manager->create('my-form-2');
+        $now->changePrototype(
+            (new \DateTimeImmutable)
+                ->add(new \DateInterval('PT1S'))
+        );
+        $this->assertFalse(
+            $manager->verifyAndExpire('my-form-1', 'qwerty123')
+        );
     }
 
     /**
