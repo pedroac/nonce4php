@@ -6,9 +6,7 @@
 
 A [nonce](https://www.computerhope.com/jargon/n/nonce.htm) manager PHP library useful for preventing [CSRF](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)) and [replay attacks](http://www.crypto-it.net/eng/attacks/replay.html).
 
-The nonces generator and storage can be customized, extendable and selected.
-
-Articles and videos explaining the vulnerabilities and how to prevent them:
+We may find several articles and videos explaining the vulnerabilities that nonces try to prevent:
 - [YouTube - Jmaxxz - CSRF Explained](https://www.youtube.com/watch?v=vrjgD0azkCw)
 - [YouTube - Professor Messer - Cross-site Request Forgery](https://www.youtube.com/watch?v=rbP2jwEDlBM)
 - [YouTube - Professor Messer - Replay Attacks](https://www.youtube.com/watch?v=jy8USm8pIYM)
@@ -16,6 +14,14 @@ Articles and videos explaining the vulnerabilities and how to prevent them:
 - [Coding Horror - Preventing CSRF and XSRF Attacks](https://blog.codinghorror.com/preventing-csrf-and-xsrf-attacks/)
 - [acunetix - CSRF Attacks, XSRF or Sea-Surf](https://www.acunetix.com/websitesecurity/csrf-attacks/)
 - [SitePoint - How to Prevent Replay Attacks on Your Website](https://www.sitepoint.com/how-to-prevent-replay-attacks-on-your-website/)
+
+It seems, though, that many PHP nonces libraries are too restrictive, coupled with some framework, hard to use or hard to understand how they work.
+
+`pedroac/nonce` tries to solve those issues.
+
+It allows choosing any [PSR-16](https://www.php-fig.org/psr/psr-16/) implementation to store temporarily the nonces, nonces values generators, expiration intervals and even a [`DateTime` provider](https://github.com/Kdyby/DateTimeProvider) to override the clock system (this feature is used for unit tests).
+
+It also provides helpers to manage input, generates random nonces names and values, verifies submitted tokens against the nonce and generates HTML elements.
 
 ## Prerequisites
 
@@ -41,7 +47,7 @@ Run the command:
 - [HTML form using an auto generated nonce name](php/examples/phtml-auto-nonce-name.php)
 - [HTML form using a helper](php/examples/phtml-easy-form.php)
 
-The HTML forms can be testes using a builting PHP server.  
+The HTML forms can be tested using a PHP built-in web server.  
 From the `php/examples` folder run the command:
 ```bash
 php -S localhost:8000
