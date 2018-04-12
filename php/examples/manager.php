@@ -14,7 +14,9 @@ $nonce = $manager->create('action');
 $value = $nonce->getValue();
 
 $validToken = false;
-if (isset($_POST['token'])) {
-    $validToken = $manager->verify($nonce, $_POST['token']);
-    $manager->expire('action');
+if (filter_has_var(INPUT_POST, 'action')) {
+    $validToken = $manager->verifyAndExpire(
+        'action',
+        filter_input(INPUT_POST, 'action')
+    );
 }

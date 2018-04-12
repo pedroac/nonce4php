@@ -12,6 +12,8 @@ use pedroac\nonce\Nonce;
  * 
  * A class that should make easier to handle nonces related to forms.
  * 
+ * @example php/examples/phtml-easy-form.php
+ * 
  * @author Pedro Amaral Couto
  * @license MIT
  */
@@ -195,11 +197,10 @@ class NonceForm extends NoncesManager
             $this->isValid = false;
             return false;
         }
-        $this->isValid = $this->manager->verify(
+        $this->isValid = $this->manager->verifyAndExpire(
             $this->getSubmittedName(),
             $this->getSubmittedValue()
         );
-        $this->manager->expire($this->getSubmittedName());
         return $this->isValid;
     }
 
