@@ -60,7 +60,7 @@ class NoncesManagerTest extends TestCase
     {
         $now = new MutableProvider(new \DateTimeImmutable);
         $manager = new NoncesManager(
-            new ArrayCache(60),
+            $storage = new ArrayCache(60),
             null,
             null,
             $now
@@ -73,19 +73,13 @@ class NoncesManagerTest extends TestCase
         );
 
         $nonce = $manager->create();
-
         $this->assertTrue(
             strlen($nonce->getName()) > 10
         );
         
-        $this->assertTrue(
-            strlen($nonce->getValue()) > 10
-        );
-
         $this->assertFalse(
             $nonce->isExpired()
         );
-
         $now->changePrototype(
             (new \DateTimeImmutable)
                 ->add(new \DateInterval('PT50M'))
@@ -93,7 +87,6 @@ class NoncesManagerTest extends TestCase
         $this->assertFalse(
             $nonce->isExpired()
         );
-
         $now->changePrototype(
             (new \DateTimeImmutable)
                 ->add(new \DateInterval('PT1H'))
