@@ -79,7 +79,7 @@ $htmlField = new HtmlNonceField($form);
 
 2) Check if a valid token was submitted:
 ```php
-if ($form->wasSubmittedValid()) {
+if ($form->isSubmittedValid()) {
   /**
    * handle the success:
    * - if all form input is valid, show success page;
@@ -90,7 +90,7 @@ if ($form->wasSubmittedValid()) {
 
 3) Check if an invalid token was submitted:
 ```php
-if ($form->wasSubmittedInvalid()) {
+if ($form->isSubmittedInvalid()) {
   /**
    * handle failure:
    * - don't show the form again;
