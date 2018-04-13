@@ -158,10 +158,10 @@ class NonceForm extends NoncesManager
     /**
      * Check if it was submitted an invalid token.
      * 
-     * It should return FALSE if the token wasn't submmited.
+     * It should return FALSE if the token wasn't submitted.
      * 
      * It should only return TRUE if the token was submitted and
-     * it it's invalid.
+     * it's invalid.
      * 
      * The nonce with the same submitted token name should be expired.
      * 
@@ -177,10 +177,10 @@ class NonceForm extends NoncesManager
     /**
      * Check if it was submitted a valid token.
      * 
-     * It should return FALSE if the token wasn't submmited.
+     * It should return FALSE if the token wasn't submitted.
      * 
      * It should only return TRUE if the token was submitted and
-     * it was succesfully verified.
+     * it was successfully verified.
      * 
      * The nonce with the same submitted token name should be expired.
      * 

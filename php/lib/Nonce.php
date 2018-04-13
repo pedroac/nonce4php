@@ -50,8 +50,10 @@ class Nonce
      * Create a nonce value object.
      * 
      * The name can be used to identify a nonce, supposedly according to 
-     * some context, for instance, a specific form submition.
+     * some context, for instance, a specific form submission.
+     * 
      * The value is supposedly a random set of characters.
+     * 
      * The expiration date and time is used to check the nonce validity.
      *
      * @param string $name The name used to identify the nonce.
@@ -95,6 +97,7 @@ class Nonce
 
     /**
      * Check if the nonce has expired.
+     * 
      * It has not expired if the expiration date and time and current
      * date and time are the same. 
      *
@@ -108,12 +111,12 @@ class Nonce
     /**
      * Verify the nonce against a specified name and value.
      * 
-     * Return TRUE if the nonce has a specified name and value and if
-     * it's not expired (sucessful verification), otherwise it 
+     * Return TRUE if the nonce has the specified name and value and
+     * it's not expired (sucessfull verification), otherwise it 
      * should return FALSE (failed verification).
      *
      * @param string $name The name that should be compared.
-     * @param string $value The value that shoud be compared.
+     * @param string $value The value that should be compared.
      * @param \DateTimeImmutable $now Date and time as the current date and time.
      * @return boolean Was the verification successful?
      */

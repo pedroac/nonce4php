@@ -6,7 +6,7 @@
 namespace pedroac\nonce\Form;
 
 /**
- * A class able to generate an hidden HTML input element with the 
+ * A class to generate an hidden HTML input element with the 
  * token name and value that might be used to be verified.  
  * 
  * @author Pedro Amaral Couto
@@ -22,7 +22,7 @@ class HtmlNonceField
     private $form;
 
     /**
-     * Create an instance that generates hidden HTML input element with the 
+     * Create an instance that generates an hidden HTML input element with the 
      * token name and value from a nonce form.
      *
      * @param NonceForm $form The nonce form.

@@ -13,13 +13,12 @@ $tokenName = filter_input(INPUT_POST, 'token_name');
 $tokenValue = filter_input(INPUT_POST, 'token_value') ?? '';
 
 /**
- * Instantiate a nonces manager using a files system cache.
+ * Instantiate the nonces manager using a files system cache.
  */
 $manager = new NoncesManager(new FilesystemCache);
 
 /**
- * When the form is submitted, validate the submitted 
- * value and remove the nonce.
+ * Validate the submitted token and remove the nonce.
  */
 if ($tokenName) {
     $isValidToken = $manager->verifyAndVerify($tokenName, $tokenValue);
@@ -29,8 +28,7 @@ if ($wasSubmitted && $isValidToken) {
 }
 
 /**
- * Generate a nonce if the form was not submit or the submitted 
- * input is not valid.
+ * Generate a nonce.
  */
 if (!$wasSubmitted || (!$isValidForm && $isValidToken)) {
     $nonce = $manager->create($tokenName);

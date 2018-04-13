@@ -18,6 +18,7 @@ use Kdyby\DateTimeProvider\DateTimeProviderInterface;
  * 
  * The server should generate a nonce using a name that specifies a context,
  * for instance, a form that might be filled by some user.
+ * 
  * The client should get, at least, the nonce value.
  * 
  * When the client requests an action that requires a nonce validation, the
@@ -63,13 +64,19 @@ class NoncesManager
     /**
      * Create a nonces manager.
      * 
-     * All the constructor arguments should be used to create nonces.  
-     * The nonce cache storage ($cache) stores the nodes until they're expired.  
-     * The cache values should not be modified outside the manager.  
-     * The random generator ($random) generates random nodes values.  
+     * All the constructor arguments should be used to create nonces.
+     * 
+     * The nonce cache storage ($cache) stores the nodes until they're expired.
+     *  
+     * The cache values should not be modified outside the manager.
+     * 
+     * The random generator ($random) generates random nodes values.
+     * 
      * The expiration interval ($expirationInterval) is used to calculate the
-     * nonces expiration date and time.  
-     * The default nonces expiration interval should be one hour.  
+     * nonces expiration date and time.
+     * 
+     * The default nonces expiration interval should be one hour.
+     * 
      * It's possible to set a DateTime provider to override the clock system,
      * providing DateTime instances that should be used as the current date and
      * time. It's used for unit tests.
@@ -103,11 +110,14 @@ class NoncesManager
     /**
      * Create a nonce.
      * 
-     * - The nonce should be randomly generated and temporarily stored.  
-     * - If `$expirationInterval` is not NULL, the manager expiration
+     * The nonce should be randomly generated and temporarily stored.
+     * 
+     * If `$expirationInterval` is not NULL, the manager expiration
      * interval should be ignored.
-     * - The returned nonce has the value that should be used by the client.
-     * - If a name is not specified a unique name should be generated and the
+     * 
+     * The returned nonce has the value that should be used by the client.
+     * 
+     * If a name is not specified a unique name should be generated and the
      * returned nonce should be used to get it.
      *
      * @param string $name The name that can be used to identify the nonce.
@@ -144,7 +154,7 @@ class NoncesManager
     /**
      * Verify a token and remove the nonce with the specified name.
      * 
-     * Check if there's a nounce which has not expired with the specified 
+     * Check if there's a nonce which has not expired with the specified 
      * name and value. Also, if there's a nonce with the specified name, it 
      * should be removed from the cache storage.
      * 

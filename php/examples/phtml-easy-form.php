@@ -15,7 +15,7 @@ $state = STATE_NOT_SUBMITTED;
 $inputNumber = filter_input(INPUT_POST, 'number');
 
 /**
- * Create a nonce form manager.
+ * Create the nonce form manager.
  */
 $form = new NonceForm(
     'token',
@@ -33,7 +33,7 @@ if ($form->isSubmittedInvalid()) {
 }
 
 /**
- * Create a an HTML nonce field generator.
+ * Create an HTML nonce field generator.
  */
 $htmlField = new HtmlNonceField($form);
 ?>
